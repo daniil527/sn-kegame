@@ -16,9 +16,9 @@ BLACK = (0, 0, 0)
 # Инициализация Pygame
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Изгиб Питона')
+pygame.display.set_caption("Изгиб Питона")
 clock = pygame.time.Clock()
-font = pygame.font.SysFont('Arial', 25)
+font = pygame.font.SysFont("Arial", 25)
 
 
 class GameObject:
@@ -36,11 +36,7 @@ class GameObject:
             CELL_SIZE,
             CELL_SIZE,
         )
-        pygame.draw.rect(
-            surface,
-            self.color,
-            rect,
-        )
+        pygame.draw.rect(surface, self.color, rect)
 
 
 class Apple(GameObject):
@@ -51,7 +47,10 @@ class Apple(GameObject):
         super().__init__(position, color)
 
     def _random_position(self):
-        """Возвращает случайную позицию на сетке; координаты кратны CELL_SIZE."""
+        """
+        Возвращает случайную позицию на сетке.
+        Координаты кратны CELL_SIZE.
+        """
         max_x = (WIDTH - CELL_SIZE) // CELL_SIZE
         max_y = (HEIGHT - CELL_SIZE) // CELL_SIZE
         x = random.randint(0, max_x) * CELL_SIZE
@@ -78,10 +77,11 @@ class Snake:
 
     def move(self):
         """
-        Сдвигает змейку;
-        телепортирует на противоположный край при достижении границы.
+        Сдвигает змейку в направлении self.direction.
+        По достижении границы телепортирует на противоположный край.
         """
         x, y = self.head_position()
+
         if self.direction == pygame.K_UP:
             y -= CELL_SIZE
         elif self.direction == pygame.K_DOWN:
@@ -91,15 +91,34 @@ class Snake:
         elif self.direction == pygame.K_RIGHT:
             x += CELL_SIZE
 
-        new_head = (
-            x % WIDTH,
-            y % HEIGHT,
-        )
+        new_head = (x % WIDTH, y % HEIGHT)
         self.body.insert(0, new_head)
 
         if len(self.body) > self.length:
             self.body.pop()
 
+    def draw(self, surface):
+        """Рисует все сегменты змейки."""
+        for segment in self.body:
+            rect = pygame.Rect(
+                segment[0],
+                segment[1],
+                CELL_SIZE,
+                CELL_SIZE,
+            )
+            pygame.draw.rect(surface, self.color, rect)
+
+    def change_direction(self, key):
+        """
+        Меняет направление, запрещая поворот на 180°.
+        `key` — одна из pygame.K_… констант.
+        """
+        opposites = {
+            pygame.K_UP: pygame.K_DOWN,
+            pygame.K_DOWN: pygame.K_UP,
+            pygame.K_LEFT: pygame.K_RIGHT,
+            pygame.K_RIGHT: pygame.K_LEFT,
+        }
         if key != opposites.get(self.direction):
             self.direction = key
 
@@ -109,16 +128,9 @@ class Snake:
 
 
 def draw_text(surface, text, position):
-    """Выводит текст text белым цветом в точке position."""
-    rendered = font.render(
-        text,
-        True,
-        WHITE,
-    )
-    surface.blit(
-        rendered,
-        position,
-    )
+    """Выводит текст `text` белым цветом в точке `position`."""
+    rendered = font.render(text, True, WHITE)
+    surface.blit(rendered, position)
 
 
 def main():
@@ -149,11 +161,7 @@ def main():
 
         snake.draw(screen)
         apple.draw(screen)
-        draw_text(
-            screen,
-            f'Score: {score}',
-            (10, 10),
-        )
+        draw_text(screen, f"Score: {score}", (10, 10))
 
         pygame.display.update()
         clock.tick(10)
@@ -161,5 +169,5 @@ def main():
     pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
