@@ -16,20 +16,24 @@ BLACK = (0, 0, 0)
 # Инициализация Pygame
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Изгиб Питона")
+pygame.display.set_caption('Изгиб Питона')
 clock = pygame.time.Clock()
-font = pygame.font.SysFont("Arial", 25)
+font = pygame.font.SysFont('Arial', 25)
 
 
 class GameObject:
-    """Базовый класс для игровых объектов."""
+    """
+    Базовый класс для игровых объектов.
+    """
 
     def __init__(self, position, color):
         self.position = position
         self.color = color
 
     def draw(self, surface):
-        """Рисует объект как квадрат размера CELL_SIZE."""
+        """
+        Рисует объект как квадрат размера CELL_SIZE.
+        """
         rect = pygame.Rect(
             self.position[0],
             self.position[1],
@@ -40,7 +44,9 @@ class GameObject:
 
 
 class Apple(GameObject):
-    """Яблоко — наследник GameObject, саморазмещается случайно."""
+    """
+    Яблоко — наследник GameObject, саморазмещается случайно.
+    """
 
     def __init__(self, color):
         position = self._random_position()
@@ -58,12 +64,16 @@ class Apple(GameObject):
         return x, y
 
     def relocate(self):
-        """Перемещает яблоко в новую случайную клетку."""
+        """
+        Перемещает яблоко в новую случайную клетку.
+        """
         self.position = self._random_position()
 
 
 class Snake:
-    """Класс змейки: хранит тело, двигается и проверяет столкновения."""
+    """
+    Класс змейки: хранит тело, двигается и проверяет столкновения.
+    """
 
     def __init__(self):
         self.body = [(CELL_SIZE * 5, CELL_SIZE * 5)]
@@ -72,7 +82,9 @@ class Snake:
         self.length = 1
 
     def head_position(self):
-        """Возвращает координаты головы (первого сегмента)."""
+        """
+        Возвращает координаты головы (первого сегмента).
+        """
         return self.body[0]
 
     def move(self):
@@ -98,7 +110,9 @@ class Snake:
             self.body.pop()
 
     def draw(self, surface):
-        """Рисует все сегменты змейки."""
+        """
+        Рисует все сегменты змейки.
+        """
         for segment in self.body:
             rect = pygame.Rect(
                 segment[0],
@@ -111,7 +125,7 @@ class Snake:
     def change_direction(self, key):
         """
         Меняет направление, запрещая поворот на 180°.
-        `key` — одна из pygame.K_… констант.
+        key — одна из pygame.K_… констант.
         """
         opposites = {
             pygame.K_UP: pygame.K_DOWN,
@@ -123,18 +137,24 @@ class Snake:
             self.direction = key
 
     def check_collision(self):
-        """Возвращает True, если голова сталкивается с телом."""
+        """
+        Возвращает True, если голова сталкивается с телом.
+        """
         return self.head_position() in self.body[1:]
 
 
 def draw_text(surface, text, position):
-    """Выводит текст `text` белым цветом в точке `position`."""
+    """
+    Выводит текст text белым цветом в точке position.
+    """
     rendered = font.render(text, True, WHITE)
     surface.blit(rendered, position)
 
 
 def main():
-    """Запуск главного цикла игры."""
+    """
+    Запуск главного цикла игры.
+    """
     snake = Snake()
     apple = Apple(RED)
     score = 0
@@ -161,7 +181,7 @@ def main():
 
         snake.draw(screen)
         apple.draw(screen)
-        draw_text(screen, f"Score: {score}", (10, 10))
+        draw_text(screen, 'Score: {}'.format(score), (10, 10))
 
         pygame.display.update()
         clock.tick(10)
@@ -169,5 +189,5 @@ def main():
     pygame.quit()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
