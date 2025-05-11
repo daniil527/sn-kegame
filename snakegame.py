@@ -78,8 +78,8 @@ class Snake:
 
     def move(self):
         """
-        Сдвигает змейку; телепортирует на противоположный край
-        при достижении границы.
+        Сдвигает змейку;
+        телепортирует на противоположный край при достижении границы.
         """
         x, y = self.head_position()
         if self.direction == pygame.K_UP:
@@ -100,29 +100,6 @@ class Snake:
         if len(self.body) > self.length:
             self.body.pop()
 
-    def draw(self, surface):
-        """Рисует все сегменты змейки."""
-        for segment in self.body:
-            rect = pygame.Rect(
-                segment[0],
-                segment[1],
-                CELL_SIZE,
-                CELL_SIZE,
-            )
-            pygame.draw.rect(
-                surface,
-                self.color,
-                rect,
-            )
-
-    def change_direction(self, key):
-        """Меняет направление, запрещая поворот на 180°."""
-        opposites = {
-            pygame.K_UP: pygame.K_DOWN,
-            pygame.K_DOWN: pygame.K_UP,
-            pygame.K_LEFT: pygame.K_RIGHT,
-            pygame.K_RIGHT: pygame.K_LEFT,
-        }
         if key != opposites.get(self.direction):
             self.direction = key
 
