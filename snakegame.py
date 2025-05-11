@@ -16,9 +16,9 @@ BLACK = (0, 0, 0)
 # Инициализация Pygame
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Изгиб Питона")
+pygame.display.set_caption('Питон Питонский')
 clock = pygame.time.Clock()
-font = pygame.font.SysFont("Arial", 25)
+font = pygame.font.SysFont('Arial', 25)
 
 
 class GameObject:
@@ -161,7 +161,7 @@ def main():
 
         snake.draw(screen)
         apple.draw(screen)
-        draw_text(screen, f"Score: {score}", (10, 10))
+        draw_text(screen, f'Score: {score}', (10, 10))
 
         pygame.display.update()
         clock.tick(10)
@@ -169,5 +169,5 @@ def main():
     pygame.quit()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
